@@ -53,6 +53,10 @@ namespace DBUtility
         {
             FileStream fs = new FileStream("sqlhelper.log", FileMode.Append);
             StreamWriter sw = new StreamWriter(fs);
+            sw.WriteLine(DateTime.Now.ToString() + "" + log);
+            sw.Close();
+            fs.Close();
+
         }
 
         #endregion
