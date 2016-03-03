@@ -56,7 +56,6 @@ namespace DBUtility
             sw.WriteLine(DateTime.Now.ToString() + "" + log);
             sw.Close();
             fs.Close();
-
         }
 
         #endregion
