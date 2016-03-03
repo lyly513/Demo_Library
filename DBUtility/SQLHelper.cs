@@ -33,10 +33,84 @@ namespace DBUtility
             catch(Exception ex)
             {
                 //将异常信息写入日志
-                
+                string errorInfo = "调用public static int Update(string sql)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+
+            }
+            finally
+            {
+                conn.Close();
             }
         }
 
+        public static object GetSingleResult(string sql)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            try
+            {
+                conn.Open();
+                return cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static int GetSingleResult(string sql)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static SqlDataReader GetReader(string sql)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            try
+            {
+                conn.Open();
+                return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static int GetSingleResult(string sql)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+            }
+            
+        }
+
+        public static DataSet GetDataSet(string sql)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);//创建数据适配器对象
+            DataSet ds = new DataSet();
+            try
+            {
+                conn.Open();
+                da.Fill(ds);//使用数据适配器填充数据集
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static int GetSingleResult(string sql)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         #endregion
 
         #region 封装带参数SQL语句执行的各种方法
