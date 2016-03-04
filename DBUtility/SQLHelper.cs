@@ -20,7 +20,8 @@ namespace DBUtility
         private static string connString = ConfigurationManager.ConnectionStrings["connString"].ToString();
 
         #region 封装格式化SQL语句执行的各种方法
-
+        
+        // 执行不带参数的更新SQL语句
         public static int Update(string sql)
         {
             SqlConnection conn = new SqlConnection(connString);
@@ -114,6 +115,101 @@ namespace DBUtility
         #endregion
 
         #region 封装带参数SQL语句执行的各种方法
+        // 执行带参数的更新SQL语句
+        public static int Update(string sql, params SqlParameter[] param)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddRange(param);
+            try
+            {
+                conn.Open();
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static int Update(string sql)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static object GetSingleResult(string sql, params SqlParameter[] param)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddRange(param);
+            try
+            {
+                conn.Open();
+                return cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static int GetSingleResult(string sql)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static SqlDataReader GetReader(string sql, params SqlParameter[] param)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddRange(param);
+            try
+            {
+                conn.Open();
+                return cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static int GetReader(string sql)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+            }
+
+        }
+
+        public static DataSet GetDataSet(string sql, params SqlParameter[] param)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddRange(param);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);//创建数据适配器对象
+            DataSet ds = new DataSet();//创建一个内存数据集
+            try
+            {
+                conn.Open();
+                da.Fill(ds);//使用数据适配器填充数据集
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static int GetDataSet(string sql)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         #endregion
 
