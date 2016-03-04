@@ -14,7 +14,8 @@ namespace LibraryManagerPro
         public FrmMain()
         {
             InitializeComponent();
-
+            //显示登录用户名
+            this.tssl_AdminName.Text = Program.objCurrentAdmin.AdminName;
 
         }
      

@@ -12,7 +12,7 @@ namespace BLL
 {
 
 
-    class SysAdminManager
+    public class SysAdminManager
     {
         //创建数据访问对象
         private SysAdminService objSysAdminService = new SysAdminService();

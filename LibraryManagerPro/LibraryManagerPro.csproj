@@ -150,7 +150,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -165,6 +167,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{c02add75-e79d-4fc1-b4d0-65720af7f5fa}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{ee383602-ff22-43a3-a833-2ceab4b0aad0}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{99ae2dd7-dfc5-4213-a3af-d78e24ba68fc}</Project>
