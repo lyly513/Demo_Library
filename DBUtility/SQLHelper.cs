@@ -91,7 +91,7 @@ namespace DBUtility
             SqlConnection conn = new SqlConnection(connString);
             SqlCommand cmd = new SqlCommand(sql, conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);//创建数据适配器对象
-            DataSet ds = new DataSet();
+            DataSet ds = new DataSet();//创建一个内存数据集
             try
             {
                 conn.Open();
@@ -101,7 +101,7 @@ namespace DBUtility
             catch (Exception ex)
             {
                 //将异常信息写入日志
-                string errorInfo = "调用public static int GetSingleResult(string sql)方法时发生错误：" + ex.Message;
+                string errorInfo = "调用public static int GetDataSet(string sql)方法时发生错误：" + ex.Message;
                 WriteLog(errorInfo);
                 throw new Exception(errorInfo);
 
