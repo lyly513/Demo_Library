@@ -213,7 +213,7 @@
             // 
             // lblOperationName
             // 
-            this.lblOperationName.Font = new System.Drawing.Font("微软雅黑 Light", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblOperationName.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblOperationName.ForeColor = System.Drawing.Color.Maroon;
             this.lblOperationName.Location = new System.Drawing.Point(10, 16);
             this.lblOperationName.Name = "lblOperationName";
@@ -387,7 +387,7 @@
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "[图书借阅管理系统]";
-
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.spContainer.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spContainer)).EndInit();
             this.spContainer.ResumeLayout(false);

@@ -170,18 +170,17 @@ namespace DBUtility
             SqlCommand cmd = new SqlCommand(sql, conn);
             cmd.Parameters.AddRange(param);
             try
-            {
+            {                
                 conn.Open();
                 return cmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
             catch (Exception ex)
             {
                 //将异常信息写入日志
-                string errorInfo = "调用public static int GetReader(string sql)方法时发生错误：" + ex.Message;
+                string errorInfo = "调用public static int GetReader(string sql, params SqlParameter[] param)方法时发生错误：" + ex.Message;
                 WriteLog(errorInfo);
                 throw new Exception(errorInfo);
             }
-
         }
 
         public static DataSet GetDataSet(string sql, params SqlParameter[] param)

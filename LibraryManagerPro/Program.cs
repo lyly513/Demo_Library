@@ -27,7 +27,7 @@ namespace LibraryManagerPro
             else
                 Application.Exit();//退出整个应用程序
 
-            Application.Run(new FrmMain());
+            //Application.Run(new FrmMain());
 
         }
         //定义一个全局变量（用来保存当前的登录用户对象）

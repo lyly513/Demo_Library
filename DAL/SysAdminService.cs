@@ -21,13 +21,14 @@ namespace DAL
         public SysAdmin AdminLogin(SysAdmin objAdmin)
         {
             //定义登录的SQL语句
-            string sql = "select AdminName,StatusId,RoleId from SysAdmins where";
+            string sql = "select AdminName,StatusId,RoleId from SysAdmins where ";
             sql += "AdminId=@AdminId and LoginPwd=@LoginPwd";
             //封装参数
             SqlParameter[] param = new SqlParameter[]
             {
                 new SqlParameter("@AdminId",objAdmin.AdminId),
-                new SqlParameter("@LoginPws",objAdmin.LoginPwd)
+                //下面的LoginPwd可能写错为LoginPws
+                new SqlParameter("@LoginPwd",objAdmin.LoginPwd)
             };
             //执行查询
             SqlDataReader objReader = SQLHelper.GetReader(sql, param);

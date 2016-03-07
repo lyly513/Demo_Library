@@ -23,7 +23,7 @@ namespace BLL
             return objSysAdminService.AdminLogin(objAdmin);
         }
 
-        //第二个作用:起到业务逻辑处理
+        //第二个作用:起到业务逻辑处理(暂无需使用)
 
     }
 }
