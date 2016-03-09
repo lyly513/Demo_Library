@@ -10,5 +10,9 @@ namespace Models
     [Serializable]
     public class Publisher
     {
+        public int PublisherId { set; get; }
+
+        public string PublisherName { set; get; }
+
     }
 }

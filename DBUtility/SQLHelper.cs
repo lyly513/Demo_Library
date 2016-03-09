@@ -129,7 +129,7 @@ namespace DBUtility
             catch (Exception ex)
             {
                 //将异常信息写入日志
-                string errorInfo = "调用public static int Update(string sql)方法时发生错误：" + ex.Message;
+                string errorInfo = "调用public static int Update(string sql, params SqlParameter[] param)方法时发生错误：" + ex.Message;
                 WriteLog(errorInfo);
                 throw new Exception(errorInfo);
 
@@ -153,7 +153,7 @@ namespace DBUtility
             catch (Exception ex)
             {
                 //将异常信息写入日志
-                string errorInfo = "调用public static int GetSingleResult(string sql)方法时发生错误：" + ex.Message;
+                string errorInfo = "调用public static int GetSingleResult(string sql, params SqlParameter[] param)方法时发生错误：" + ex.Message;
                 WriteLog(errorInfo);
                 throw new Exception(errorInfo);
 
@@ -199,7 +199,7 @@ namespace DBUtility
             catch (Exception ex)
             {
                 //将异常信息写入日志
-                string errorInfo = "调用public static int GetDataSet(string sql)方法时发生错误：" + ex.Message;
+                string errorInfo = "调用public static int GetDataSet(string sql, params SqlParameter[] param)方法时发生错误：" + ex.Message;
                 WriteLog(errorInfo);
                 throw new Exception(errorInfo);
 
@@ -212,8 +212,33 @@ namespace DBUtility
 
         #endregion
 
+        
         #region 封装调用存储过程执行的各种方法
+        
+        //执行调用存储过程更新的方法
+        public static int UpdateByProcedure(string sql, params SqlParameter[] param)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddRange(param);
+            try
+            {
+                conn.Open();
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static int UpdateByProcedure(string sql, params SqlParameter[] param)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
 
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         #endregion
 
         #region 其他方法
