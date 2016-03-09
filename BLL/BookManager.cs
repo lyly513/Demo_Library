@@ -24,5 +24,22 @@ namespace BLL
         {
             return objBookService.GetAllPublisher();  
         }
+        //判断图书条码是否存在
+        public bool BarCodelsExisted(string barCode)
+        {
+            //老师写成了CarCode...
+            int count = objBookService.GetCountByBarCode(barCode);
+            if (count == 1)
+                return true;
+            else
+                return false;
+        }
+
+        //添加图书
+        public int AddBook(Book objBook)
+        {
+            return objBookService.AddBook(objBook);
+        }
+
     }
 }

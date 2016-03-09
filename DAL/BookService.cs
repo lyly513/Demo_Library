@@ -57,7 +57,8 @@ namespace DAL
 
         #region 添加图书
         //判断条码是否已经存在
-        public int GetCountByCarCode(string barCode)
+        //老师写成了CarCode...
+        public int GetCountByBarCode(string barCode)
         {
             string sql = "select count(*) from Books where BarCode=@BarCode";
             SqlParameter[] param = new SqlParameter[] { new SqlParameter("@BarCode", barCode) };
