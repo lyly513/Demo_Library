@@ -22,7 +22,7 @@ namespace BLL
         //获取全部的出版社信息
         public List<Publisher> GetAllPublisher()
         {
-            return objBookService.GetAllPublisher();
+            return objBookService.GetAllPublisher();  
         }
     }
 }
