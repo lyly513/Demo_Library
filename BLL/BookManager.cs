@@ -25,7 +25,7 @@ namespace BLL
             return objBookService.GetAllPublisher();  
         }
         //判断图书条码是否存在
-        public bool BarCodelsExisted(string barCode)
+        public bool BarCodeIsExisted(string barCode)
         {
             //老师写成了CarCode...
             int count = objBookService.GetCountByBarCode(barCode);

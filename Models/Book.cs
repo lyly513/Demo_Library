@@ -37,5 +37,6 @@ namespace Models
         public DateTime RegTime { set; get; }
 
         //扩展属性
+        public string PublisherName { set; get; }
     }
 }

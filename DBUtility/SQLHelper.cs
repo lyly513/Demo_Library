@@ -211,17 +211,30 @@ namespace DBUtility
         }
 
         #endregion
-
+        
         
         #region 封装调用存储过程执行的各种方法
         
         //执行调用存储过程更新的方法
         
         //此处有问题
-        public static int UpdateByProcedure(string sql, params SqlParameter[] param)
+        public static int UpdateByProcedure(string ProcName, params SqlParameter[] param)
         {
             SqlConnection conn = new SqlConnection(connString);
-            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure; //指定执行存储过程操作 
+            cmd.CommandText = ProcName; //存储过程名称 
+
+            ////对应存储过程QueryInfoByName的第一个参数@BarCode 
+            //SqlParameter BarCode = new SqlParameter("@BarCode", SqlDbType.VarChar, 20);
+            ////指定参数@BarCode要转入的值 
+            //BarCode.Value = txt_name;
+
+            ////对应存储过程QueryInfoByName的第二个参数@BookName 
+            //SqlParameter BookName = new SqlParameter("@BookName", SqlDbType.VarChar, 100);
+            ////指定参数@age要转入的值 
+            //BookName.Value = txt_age; 
+
             cmd.Parameters.AddRange(param);
             try
             {
@@ -234,7 +247,6 @@ namespace DBUtility
                 string errorInfo = "调用public static int UpdateByProcedure(string sql, params SqlParameter[] param)方法时发生错误：" + ex.Message;
                 WriteLog(errorInfo);
                 throw new Exception(errorInfo);
-
             }
             finally
             {
