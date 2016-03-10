@@ -220,7 +220,7 @@ namespace LibraryManagerPro
                 BookName = this.txtBookName.Text.Trim(),
                 BookCategory = Convert.ToInt32(this.cboBookCategory.SelectedValue),
                 PublisherId = Convert.ToInt32(this.cboPublisher.SelectedValue),
-                PublisherDate = Convert.ToDateTime(this.dtpPublishDate.Text),
+                PublishDate = Convert.ToDateTime(this.dtpPublishDate.Text),
                 Author = this.txtAuthor.Text.Trim(),
                 UnitPrice = Convert.ToDouble(this.txtUnitPrice.Text.Trim()),
                 BarCode = this.txtBarCode.Text.Trim(),

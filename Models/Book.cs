@@ -10,7 +10,7 @@ namespace Models
     [Serializable]
     public class Book
     {
-        private int BookId { set; get; }
+        public int BookId { set; get; }
 
         public string BarCode { get; set; }
 
@@ -20,7 +20,7 @@ namespace Models
 
         public int PublisherId { set; get; }
 
-        public DateTime PublisherDate { set; get; }
+        public DateTime PublishDate { set; get; }
 
         public int BookCategory { set; get; }
 
@@ -38,5 +38,7 @@ namespace Models
 
         //扩展属性
         public string PublisherName { set; get; }
+
+        public string CategoryName { set; get; }
     }
 }

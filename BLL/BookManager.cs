@@ -28,7 +28,7 @@ namespace BLL
         public bool BarCodeIsExisted(string barCode)
         {
             //老师写成了CarCode...
-            int count = objBookService.GetCountByBarCode(barCode);
+            int count = objBookService.GetCountByCarCode(barCode);
             if (count == 1)
                 return true;
             else
@@ -41,5 +41,16 @@ namespace BLL
             return objBookService.AddBook(objBook);
         }
 
+        //根据图书条码查询图书对象
+        public Book GetBookByBarCode(string barCode)
+        {
+            return objBookService.GetBookByBarCode(barCode);
+        }
+
+        //更新图书收藏总数
+        public int AddBookCount(string barCode, int bookCount)
+        {
+            return objBookService.AddBookCount(barCode, bookCount);
+        }
     }
 }

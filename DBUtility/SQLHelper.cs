@@ -217,7 +217,6 @@ namespace DBUtility
         
         //执行调用存储过程更新的方法
         
-        //此处有问题
         public static int UpdateByProcedure(string ProcName, params SqlParameter[] param)
         {
             SqlConnection conn = new SqlConnection(connString);
@@ -264,8 +263,6 @@ namespace DBUtility
             sw.WriteLine(DateTime.Now.ToString() + "" + log);
             sw.Close();
             fs.Close();
-
-
         }
 
         #endregion
