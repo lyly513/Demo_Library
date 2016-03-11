@@ -54,6 +54,7 @@ namespace LibraryManagerPro
                     this.txtAddCount.Enabled = true;
                     this.txtAddCount.Focus();
                     //同步在列表中显示（先判断当前列表中是否存在该对象）
+                    //使用LINQ语句查询
                     int count = (from b in bookList where b.BookId == objBook.BookId select b).Count();
                     if (count == 0)
                     {
