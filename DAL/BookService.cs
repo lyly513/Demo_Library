@@ -94,9 +94,9 @@ namespace DAL
         //这里老师参数写的是barCode(差异)
         public Book GetBookByBarCode(string barCode)
         {
-            string sql = "select BookId, BarCode, BookName, Author, PublisherId, PublishDate, BookCategory, UnitPrice, BookImage, BookCount, Remainder, BookPosition, RegTime, PublisherName, CategoryName from Books";
-            sql += "inner join Publishers on Publishers.PublisherId=Books.PublisherId";
-            sql += "inner join Categories on Books.BookCategory=Categories.CategoryId";
+            string sql = "select BookId, BarCode, BookName, Author, Books.PublisherId, PublishDate, BookCategory, UnitPrice, BookImage, BookCount, Remainder, BookPosition, RegTime, PublisherName, CategoryName from Books ";
+            sql += "inner join Publishers on Publishers.PublisherId=Books.PublisherId ";
+            sql += "inner join Categories on Books.BookCategory = Categories.CategoryId ";
             sql += "where BarCode=@BarCode";
             SqlParameter[] param = new SqlParameter[]
             {
@@ -132,7 +132,7 @@ namespace DAL
         //更新图书收藏总数
         public int AddBookCount(string barCode, int bookCount)
         {
-            string sql = "update Books set BookCount+@BookCount where BarCode=@BarCode";
+            string sql = "update Books set BookCount = BookCount + @BookCount where BarCode = @BarCode ";
             SqlParameter[] param = new SqlParameter[]
             {
                 new SqlParameter("@BarCode",barCode),
