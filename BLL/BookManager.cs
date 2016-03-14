@@ -52,5 +52,17 @@ namespace BLL
         {
             return objBookService.AddBookCount(barCode, bookCount);
         }
+
+        /// <summary>
+        /// 根据组合条件查询信息
+        /// </summary>
+        /// <param name="categoryId">图书分类编号</param>
+        /// <param name="barCode">图书条码</param>
+        /// <param name="bookName">图书名称</param>
+        /// <returns>图书对象集合</returns>
+        public List<Book> GetBooks(int categoryId, string barCode, string bookName)
+        {
+            return objBookService.GetBooks(categoryId, barCode, bookName);
+        }
     }
 }

@@ -104,7 +104,7 @@ namespace DAL
             };
             SqlDataReader objReader = SQLHelper.GetReader(sql, param);
             Book objBook = null;
-            if(objReader.Read())
+            if (objReader.Read())
             {
                 objBook = new Book()
                 {
@@ -143,5 +143,79 @@ namespace DAL
 
 
         #endregion
-    }     
+
+        #region 图书维护
+
+        #region 组合查询
+
+
+        /// <summary>
+        /// 根据组合条件查询信息
+        /// </summary>
+        /// <param name="categoryId">图书分类编号</param>
+        /// <param name="barCode">图书条码</param>
+        /// <param name="bookName">图书名称</param>
+        /// <returns>图书对象集合</returns>
+        public List<Book> GetBooks(int categoryId, string barCode, string bookName)
+        {
+            //定义参数集合
+            List<SqlParameter> paramList = new List<SqlParameter>();
+            //定义查询SQL语句
+            string sql = "select BookId, BarCode, BookName, Author, Books.PublisherId, PublishDate, BookCategory, UnitPrice, BookImage, BookCount, Remainder, BookPosition, RegTime, PublisherName, CategoryName from Books ";
+            sql += " inner join Publishers on Publishers.PublisherId=Books.PublisherId ";
+            sql += " inner join Categories on Books.BookCategory = Categories.CategoryId ";
+            sql += " where 1=1 ";
+            //根据条件添加查询参数(根据输入的参数)
+            if (barCode != null && barCode.Length > 0)
+            {
+                sql += "and BarCode = @BarCode";
+                paramList.Add(new SqlParameter("@BarCode", barCode));
+            }
+            else
+            {
+                if (categoryId != -1)
+                {
+                    sql += "and CategoryId = @CategoryId";
+                    paramList.Add(new SqlParameter("@CategoryId", categoryId));
+                }
+                if (bookName != null && bookName.Length > 0)
+                {
+                    sql += " and BookName like '%'+@BookName+'%'";//模糊查询（差异）
+                    paramList.Add(new SqlParameter("@BookName", bookName));
+                }
+            }
+            //执行查询
+            SqlDataReader objReader = SQLHelper.GetReader(sql, paramList.ToArray());
+            List<Book> bookList = new List<Book>();
+            while(objReader.Read())
+            {
+                bookList.Add(new Book()
+                    {
+                        Author = objReader["Author"].ToString(),
+                        BarCode = objReader["BarCode"].ToString(),
+                        BookCategory = Convert.ToInt32(objReader["BookCategory"]),
+                        CategoryName = objReader["CategoryName"].ToString(),
+                        BookCount = Convert.ToInt32(objReader["BookCount"]),
+                        BookId = Convert.ToInt32(objReader["BookId"]),
+                        BookName = objReader["BookName"].ToString(),
+                        BookPosition = objReader["BookPosition"].ToString(),
+                        PublishDate = Convert.ToDateTime(objReader["PublishDate"]),
+                        PublisherId = Convert.ToInt32(objReader["BookCategory"]),
+                        PublisherName = objReader["PublisherName"].ToString(),
+                        Remainder = Convert.ToInt32(objReader["Remainder"]),
+                        UnitPrice = Convert.ToDouble(objReader["UnitPrice"]),
+                        RegTime = Convert.ToDateTime(objReader["RegTime"]),
+                        BookImage = objReader["BookImage"] is DBNull ? "" : objReader["BookImage"].ToString()
+                    });
+            }
+            objReader.Close();
+            return bookList;
+        }
+
+
+
+        #endregion
+
+        #endregion
+    }
 }

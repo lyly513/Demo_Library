@@ -136,7 +136,7 @@
             this.btnQuery.Text = "查  询";
             this.btnQuery.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnQuery.UseVisualStyleBackColor = true;
-
+            this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
             // label3
             // 
@@ -203,7 +203,6 @@
             this.dgvBookList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvBookList.Size = new System.Drawing.Size(963, 292);
             this.dgvBookList.TabIndex = 9;
-
             // 
             // BarCode
             // 
@@ -285,7 +284,6 @@
             this.btnDel.Text = "删  除";
             this.btnDel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnDel.UseVisualStyleBackColor = true;
-
             // 
             // btnCloseVideo
             // 
@@ -295,7 +293,7 @@
             this.btnCloseVideo.TabIndex = 49;
             this.btnCloseVideo.Text = "关闭摄像头";
             this.btnCloseVideo.UseVisualStyleBackColor = true;
-        
+            // 
             // btnChoseImage
             // 
             this.btnChoseImage.Location = new System.Drawing.Point(283, 619);
@@ -304,7 +302,6 @@
             this.btnChoseImage.TabIndex = 45;
             this.btnChoseImage.Text = "选择图片";
             this.btnChoseImage.UseVisualStyleBackColor = true;
-
             // 
             // btnTake
             // 
@@ -314,7 +311,6 @@
             this.btnTake.TabIndex = 43;
             this.btnTake.Text = "开始拍照";
             this.btnTake.UseVisualStyleBackColor = true;
-
             // 
             // btnStartVideo
             // 
@@ -324,7 +320,7 @@
             this.btnStartVideo.TabIndex = 42;
             this.btnStartVideo.Text = "启动摄像头";
             this.btnStartVideo.UseVisualStyleBackColor = true;
-        
+            // 
             // gbBook
             // 
             this.gbBook.Controls.Add(this.txt_BookName);
@@ -565,7 +561,6 @@
             this.btnSave.Text = "保存修改";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSave.UseVisualStyleBackColor = true;
-
             // 
             // FrmBookManage
             // 
