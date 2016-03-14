@@ -36,7 +36,7 @@ namespace LibraryManagerPro
             this.cboCategory.DataSource = list;
             this.cboCategory.DisplayMember = "CategoryName";
             this.cboCategory.ValueMember = "CategoryId";
-            this.cboCategory.SelectedIndex = 0;//默认不选中(差异)
+            this.cboCategory.SelectedIndex = 0;//默认选中“全部类别”(差异)
             //禁用删除和修改按钮
             this.btnDel.Enabled = false;
             this.btnSave.Enabled = false;
@@ -61,6 +61,9 @@ namespace LibraryManagerPro
         #region 组合查询
         private void btnQuery_Click(object sender, EventArgs e)
         {
+            //首先断开选择改变事件（防止有些情况的异常）
+            this.dgvBookList.SelectionChanged -= new EventHandler(this.dgvBookList_SelectionChanged);
+
             //判断用户是否输入查询条件
             //this.cboCategory.SelectedIndex.ToString() == "-1"（差异）
             if (this.cboCategory.SelectedIndex.ToString() == "-1" && this.txtBarCode.Text.Trim().Length == 0 && this.txtBookName.Text.Trim().Length == 0)
@@ -83,15 +86,55 @@ namespace LibraryManagerPro
                     this.btnDel.Enabled = true;
                 }
             }
+
+            //开启选择改变事件
+            this.dgvBookList.SelectionChanged += new EventHandler(this.dgvBookList_SelectionChanged);
+            dgvBookList_SelectionChanged(null,null);//使其立刻进行一次同步
+
         }
 
 
+        #endregion
+
+        #region 同步显示要修改的信息
+        private void dgvBookList_SelectionChanged(object sender, EventArgs e)
+        {
+            if (this.dgvBookList.RowCount == 0)
+                return;
+            //找到要修改的图书对象
+
+            string barCode = this.dgvBookList.CurrentRow.Cells["BarCode"].Value.ToString();
+            Book objBook = (from b in listBook where b.BarCode.Equals(barCode) select b).First<Book>();//在泛型集合列表中查找符合的行及其属性（无需去数据库查找）
+            
+            
+            //显示当前图书对象信息
+            this.lbl_BarCode.Text = objBook.BarCode;
+            this.txt_Author.Text = objBook.Author;
+            this.lbl_BookCount.Text = objBook.BookCount.ToString();
+            this.txt_BookName.Text = objBook.BookName;
+            this.txt_UnitPrice.Text = objBook.UnitPrice.ToString();
+            this.cbo_BookCategory.SelectedValue = objBook.BookCategory;
+            this.cbo_Publisher.SelectedValue = objBook.PublisherName;//(差异)
+            this.lbl_BookId.Text = objBook.BookId.ToString();
+            if(objBook.BookImage.Length!=0)
+            {
+                this.pbCurrentImage.Image = (Image)new Common.SerializeObjectToString().DeserializeObject(objBook.BookImage);
+            }
+            else
+            {
+                this.pbCurrentImage.Image = null;
+            }
+
+
+        }
         #endregion
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        
 
         
     }
