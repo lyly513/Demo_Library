@@ -84,6 +84,7 @@ namespace LibraryManagerPro
                 else
                 {
                     this.btnDel.Enabled = true;
+                    this.btnSave.Enabled = true;
                 }
             }
 
@@ -114,8 +115,9 @@ namespace LibraryManagerPro
             this.txt_BookName.Text = objBook.BookName;
             this.txt_UnitPrice.Text = objBook.UnitPrice.ToString();
             this.cbo_BookCategory.SelectedValue = objBook.BookCategory;
-            this.cbo_Publisher.SelectedValue = objBook.PublisherName;//(差异)
+            this.cbo_Publisher.SelectedValue = objBook.PublisherId;//(差异)
             this.lbl_BookId.Text = objBook.BookId.ToString();
+            this.txt_BookPosition.Text = objBook.BookPosition.ToString();//(差异)
             if(objBook.BookImage.Length!=0)
             {
                 this.pbCurrentImage.Image = (Image)new Common.SerializeObjectToString().DeserializeObject(objBook.BookImage);
@@ -132,6 +134,87 @@ namespace LibraryManagerPro
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            //数据验证
+
+            //封装对象
+            Book objBook = new Book()
+            {
+                BookName = this.txt_BookName.Text.Trim(),
+                BookCategory = Convert.ToInt32(this.cbo_BookCategory.SelectedValue),
+                PublisherId = Convert.ToInt32(this.cbo_Publisher.SelectedValue),
+                PublishDate = Convert.ToDateTime(this.dtp_PublishDate.Text),
+                Author = this.txt_Author.Text.Trim(),
+                UnitPrice = Convert.ToDouble(this.txt_UnitPrice.Text.Trim()),
+                BarCode = this.txtBarCode.Text.Trim(),
+                BookCount = Convert.ToInt32(this.lbl_BookCount.Text.Trim()),
+                BookPosition = this.txt_BookPosition.Text.Trim(),
+                BookImage = new Common.SerializeObjectToString().SerializeObject(this.pbCurrentImage.Image),
+                BookId=Convert.ToInt32(this.lbl_BookId.Text)
+            };
+
+            //调用后台
+            try
+            {
+                objBookManager.EditBook(objBook);
+                MessageBox.Show("修改成功！","提示信息");
+                //同步更新显示
+                Book editedBook=(from b in this.listBook where b.BookId.Equals(Convert.ToInt32(this.lbl_BookId.Text))select b).First<Book>();//找到对应修改的那一行（理解）
+                editedBook.BookName = objBook.BookName;
+                editedBook.BookCategory = objBook.BookCategory;
+                editedBook.PublisherId = objBook.PublisherId;
+                editedBook.PublishDate = objBook.PublishDate;
+                editedBook.Author = objBook.Author;
+                editedBook.UnitPrice = objBook.UnitPrice;
+                editedBook.BookCount = objBook.BookCount;
+                editedBook.BookPosition = objBook.BookPosition;
+                editedBook.BookImage = objBook.BookImage;
+                editedBook.BookId = objBook.BookId; 
+
+                //刷新dgv的显示
+                this.dgvBookList.Refresh();
+                
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "错误提示");
+            }
+        }
+
+        
+        private void btnDel_Click(object sender, EventArgs e)
+        {
+            //删除前的确认（可以根据需要实现回收站：给删除的数据添加删除标记）
+            DialogResult result = MessageBox.Show("确认要删除"+this.txt_BookName.Text+"吗？", "删除询问",MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (result == DialogResult.Cancel)
+                return;
+            try
+            {
+                //首先断开选择改变事件（防止有些情况的异常）
+                this.dgvBookList.SelectionChanged -= new EventHandler(this.dgvBookList_SelectionChanged);
+
+                if (objBookManager.DeleteBook(this.lbl_BookId.Text) == 1)//表示删除成功
+                {
+                    //从列表中删除行
+                    //同步更新显示
+                    Book deleteBook = (from b in this.listBook where b.BookId.Equals(Convert.ToInt32(this.lbl_BookId.Text)) select b).First<Book>();
+                    this.listBook.Remove(deleteBook);
+                    this.dgvBookList.DataSource = null;
+                    this.dgvBookList.DataSource = this.listBook;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message,"删除提示");
+            }
+
+            //开启选择改变事件
+            this.dgvBookList.SelectionChanged += new EventHandler(this.dgvBookList_SelectionChanged);
+            dgvBookList_SelectionChanged(null, null);//使其立刻进行一次同步
+
         }
 
         

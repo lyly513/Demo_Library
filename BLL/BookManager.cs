@@ -64,5 +64,24 @@ namespace BLL
         {
             return objBookService.GetBooks(categoryId, barCode, bookName);
         }
+
+        /// <summary>
+        /// 修改图书对象
+        /// </summary>
+        /// <param name="objBook">图书对象</param>
+        /// <returns></returns>
+        public int EditBook(Book objBook)
+        {
+            return objBookService.EditBook(objBook);
+        }
+        /// <summary>
+        /// 根据图书编号删除图书
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
+        public int DeleteBook(string bookId)
+        {
+            return objBookService.DeleteBook(bookId);
+        }
     }
 }
