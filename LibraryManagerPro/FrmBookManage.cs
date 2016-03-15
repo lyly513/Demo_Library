@@ -54,6 +54,8 @@ namespace LibraryManagerPro
             this.cbo_Publisher.DisplayMember = "PublisherName";
             this.cbo_Publisher.ValueMember = "PublisherId";
             this.cbo_Publisher.SelectedIndex = -1;
+            
+
 
             #endregion
         }

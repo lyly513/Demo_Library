@@ -270,7 +270,7 @@ namespace DAL
             }
             catch(Exception ex)
             {
-                throw new Exception("当前图书已被其他数据表引用，不能直接删除！"+ex.Message);
+                throw ex;
             }
         }
 
