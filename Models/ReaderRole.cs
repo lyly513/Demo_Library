@@ -10,5 +10,13 @@ namespace Models
     [Serializable]
     public class ReaderRole
     {
+        public int RoleId { set; get; }
+
+        public string RoleName { set; get; }
+
+        public int AllowDay { set; get; }
+
+        public int AllowCount { get; set; } 
+
     }
 }

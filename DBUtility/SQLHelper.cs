@@ -105,7 +105,6 @@ namespace DBUtility
                 string errorInfo = "调用public static int GetDataSet(string sql)方法时发生错误：" + ex.Message;
                 WriteLog(errorInfo);
                 throw new Exception(errorInfo);
-
             }
             finally
             {
@@ -216,7 +215,6 @@ namespace DBUtility
         #region 封装调用存储过程执行的各种方法
         
         //执行调用存储过程更新的方法
-        
         public static int UpdateByProcedure(string ProcName, params SqlParameter[] param)
         {
             SqlConnection conn = new SqlConnection(connString);
@@ -252,6 +250,37 @@ namespace DBUtility
                 conn.Close();
             }
         }
+
+        //执行调用存储过程获取数据的方法
+        public static object GetSingleResultByProcedure(string ProcName, params SqlParameter[] param)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = conn.CreateCommand();
+
+            cmd.CommandType = CommandType.StoredProcedure; //指定执行存储过程操作 
+            cmd.CommandText = ProcName; //存储过程名称 
+
+            try
+            {
+                conn.Open();
+                return cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static int GetSingleResult(string ProcName, params SqlParameter[] para)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+
+
         #endregion
 
         #region 其他方法
@@ -264,6 +293,44 @@ namespace DBUtility
             sw.Close();
             fs.Close();
         }
+
+        //启动事务提交多条带参数的SQL语句
+        public static bool UpdateByTran(string mainSql, SqlParameter[] mainParam, string detailSql, List<SqlParameter[]> detailParam)
+        {
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            try
+            {
+                conn.Open();
+                cmd.Transaction = conn.BeginTransaction();//开启事务
+                if(mainSql!=null&&mainSql.Length!=0)
+                {
+                    cmd.CommandText = mainSql;
+                    cmd.Parameters.AddRange(mainParam);
+                    cmd.ExecuteNonQuery();
+                }
+                foreach(SqlParameter[] param in detailParam)
+                {
+                    cmd.Parameters.AddRange(param);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //将异常信息写入日志
+                string errorInfo = "调用public static bool UpdateByTran(string mainSql, SqlParameter[] mainParam, string detailSql, List<SqlParameter[]> detailParam)方法时发生错误：" + ex.Message;
+                WriteLog(errorInfo);
+                throw new Exception(errorInfo);
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+
 
         #endregion
 

@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MyVideo">
+      <HintPath>..\..\..\..\Desktop\项目所需文档和资料【图书借阅管理系统】\项目需要的相关类和类库\摄像头操作类库\MyVideo.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

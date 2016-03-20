@@ -10,5 +10,14 @@ namespace Models
     [Serializable]
     public class ReturnBook
     {
+        public int ReturnId { set; get; }
+
+        public int BorrowDetailId { set; get; }
+
+        public int ReturnCount { set; get; }
+
+        public DateTime ReturnDate { set; get; }
+
+        public string AdminName_R { set; get; }
     }
 }
