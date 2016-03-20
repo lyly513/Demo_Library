@@ -216,6 +216,67 @@ namespace DAL
 
         #endregion
 
+        #region 修改图书信息
+        /// <summary>
+        /// 修改图书对象
+        /// </summary>
+        /// <param name="objBook">图书对象</param>
+        /// <returns></returns>
+        public int EditBook(Book objBook)
+        {
+            //封装参数
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@BookId",objBook.BookId),//改为主键提高效率
+                new SqlParameter("@BookName",objBook.BookName),
+                new SqlParameter("@Author",objBook.Author),
+                new SqlParameter("@PublisherId",objBook.PublisherId),
+                new SqlParameter("@PublishDate",objBook.PublishDate),
+                new SqlParameter("@BookCategory",objBook.BookCategory),
+                new SqlParameter("@UnitPrice",objBook.UnitPrice),
+                new SqlParameter("@BookImage",objBook.BookImage),
+                new SqlParameter("@BookCount",objBook.BookCount),
+                new SqlParameter("@BookPosition",objBook.BookPosition)
+            };
+            //调用通用数据访问方法实现修改（使用存储过程）
+            return SQLHelper.UpdateByProcedure("usp_EditBook", param);
+        }
+
+        #endregion
+
+        #region 删除图书
+        /// <summary>
+        /// 根据图书编号删除图书
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
+        public int DeleteBook(string bookId)
+        {
+            string sql = "delete from Books where BookId=@BookId";
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@BookId",bookId)
+            };
+            try
+            {
+                return SQLHelper.Update(sql, param);
+            }
+            catch(SqlException ex)//防止外键被引用，多路异常捕获
+            {
+                if (ex.Number == 547)
+                    throw new Exception("当前图书已被其他数据表引用，不能直接删除！");
+                else
+                    throw new Exception("删除图书出现异常："+ex.Message);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        #endregion
+
+
         #endregion
     }
 }
