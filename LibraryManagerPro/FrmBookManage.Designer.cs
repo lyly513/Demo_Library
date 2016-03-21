@@ -171,7 +171,7 @@
             this.dgvBookList.AllowUserToAddRows = false;
             this.dgvBookList.AllowUserToDeleteRows = false;
             this.dgvBookList.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            this.dgvBookList.ColumnHeadersHeight = 28;
+            this.dgvBookList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBookList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.BarCode,
             this.BookName,

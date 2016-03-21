@@ -95,8 +95,6 @@ namespace LibraryManagerPro
             dgvBookList_SelectionChanged(null,null);//使其立刻进行一次同步
 
         }
-
-
         #endregion
 
         #region 同步显示要修改的信息

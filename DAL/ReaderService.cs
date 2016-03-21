@@ -87,7 +87,7 @@ namespace DAL
         //复用方法
         private Reader GetReaderBySQL(string whereSql, SqlParameter[] param)
         {
-            string sql = "select ReaderId, ReadingCard, ReaderName, Gender, IDCard, ReaderAddress, PostCode, PhoneNumber, RoleId, ReaderImage, StatusId, RoleName from Readers ";
+            string sql = "select ReaderId, ReadingCard, ReaderName, Gender, IDCard, ReaderAddress, PostCode, PhoneNumber, Readers.RoleId, ReaderImage, StatusId, RoleName from Readers ";
             sql += " inner join ReaderRoles on ReaderRoles.RoleId=Readers.RoleId ";
             sql += whereSql;
 
@@ -101,6 +101,7 @@ namespace DAL
                     ReadingCard = objReader["ReadingCard"].ToString(),
                     ReaderName = objReader["ReaderName"].ToString(),
                     RoleId = Convert.ToInt32(objReader["RoleId"]),
+                    RoleName=objReader["RoleName"].ToString(),
                     ReaderImage = objReader["ReaderImage"] is DBNull ? "" : objReader["ReaderImage"].ToString(),
                     ReaderId = Convert.ToInt32(objReader["ReaderId"]),
                     StatusId = Convert.ToInt32(objReader["StatusId"]),
@@ -118,7 +119,7 @@ namespace DAL
         //根据会员角色查询读者信息（同时找到该角色的会员总数）
         public List<Reader> GetReaderByRole(string roleId, out int readerCount)//使用out参数，返回多个数据
         {
-            string sql = "select ReaderId, ReaderCard, ReaderName, Gender, PhoneNumber, ReaderAddress, RegTime, StatusId from Readers";
+            string sql = "select ReaderId, ReadingCard, ReaderName, Gender, PostCode, PhoneNumber, ReaderAddress, RegTime, StatusId from Readers";
             sql += " where RoleId=@RoleId; ";
             sql += " select readerCount=count(*) from Readers where RoleId=@RoleId ";
 
