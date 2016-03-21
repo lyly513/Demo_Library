@@ -259,8 +259,12 @@ namespace LibraryManagerPro
             //显示查询结果
             if (this.objCurrentReader != null)
             {
-                this.btnEdit.Enabled = true;
+                if(objCurrentReader.StatusId!=0)//如果当前借阅证有效
+                {
+                    this.btnEdit.Enabled = true;
                 this.btnForbidden.Enabled = true;
+                }
+                
                 //显示读者信息
                 this.lblAddress.Text = objCurrentReader.ReaderAddress;
                 this.lblPhone.Text = objCurrentReader.PhoneNumber;
@@ -275,19 +279,25 @@ namespace LibraryManagerPro
             else
             {
                 MessageBox.Show("当前读者不存在！", "查询提示");
-                foreach(Control item in tabPage1.Controls)
-                {
-                    if (item is TextBox)
-                    {
-                        item.Text = "";
-                    }
-                }
-                this.pbReaderImg.Image = null;
+                ClearReader();
                 
                 //禁用修改按钮和借阅证挂失按钮
                 this.btnEdit.Enabled = false;
                 this.btnForbidden.Enabled = false;
             }
+        }
+
+        //清空读者信息
+        private void ClearReader()
+        {
+            foreach (Control item in tabPage1.Controls)
+            {
+                if (item is Label)
+                {
+                    item.Text = "";
+                }
+            }
+            this.pbReaderImg.Image = null;
         }
 
         private void rdoIDCard_CheckedChanged(object sender, EventArgs e)
@@ -298,6 +308,33 @@ namespace LibraryManagerPro
         private void rdoReadingCard_CheckedChanged(object sender, EventArgs e)
         {
             this.txt_IDCard.Text = "";
+        }
+
+        //挂失借阅证
+        private void btnForbidden_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("确认挂失当前的借阅证吗？", "挂失询问", MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question);
+            if(result==DialogResult.OK)
+            {
+                try
+                {
+                    objReaderManager.ForbiddenReaderCard(objCurrentReader.ReaderId.ToString());
+                    MessageBox.Show("挂失成功", "提示信息");
+                    ClearReader();
+                }
+                catch(Exception)
+                {
+
+                }
+            }
+        }
+
+        //修改信息
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            FrmEidtReader frmEdit = new FrmEidtReader(this.objCurrentReader);
+            frmEdit.Show();
         }
 
     }

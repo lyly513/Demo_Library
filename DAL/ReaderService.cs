@@ -40,11 +40,11 @@ namespace DAL
             };
             return SQLHelper.Update(sql,param);//（疑问）
         }
-        
-        //修改读者信息
-        public int EditReader(string readerId, Reader objReader)
+
+        //修改读者信息(不带参数)
+        public int EditReader(Reader objReader)
         {
-            string sql = "update Readers set ReaderName=@ReaderName, Gender=@Gender, ReaderAddress=@ReaderAddress, PostCode=@PostCode, PhoneNumber=@PhoneNumber, RoleId=@RoleId, ReaderImage=@ReaderImage, ReaderId=@ReaderId";
+            string sql = " update Readers set ReaderName=@ReaderName, Gender=@Gender, ReaderAddress=@ReaderAddress, PostCode=@PostCode, PhoneNumber=@PhoneNumber, RoleId=@RoleId, ReaderImage=@ReaderImage where ReaderId=@ReaderId ";
             //定义参数
             SqlParameter[] param = new SqlParameter[]
             {
@@ -57,8 +57,26 @@ namespace DAL
                 new SqlParameter("@ReaderImage",objReader.ReaderImage),
                 new SqlParameter("@ReaderId",objReader.ReaderId)
             };
-            return SQLHelper.Update(sql,param);
+            return SQLHelper.Update(sql, param);
         }
+        ////修改读者信息(带参数)
+        //public int EditReader(string readerId, Reader objReader)
+        //{
+        //    string sql = "update Readers set ReaderName=@ReaderName, Gender=@Gender, ReaderAddress=@ReaderAddress, PostCode=@PostCode, PhoneNumber=@PhoneNumber, RoleId=@RoleId, ReaderImage=@ReaderImage, ReaderId=@ReaderId";
+        //    //定义参数
+        //    SqlParameter[] param = new SqlParameter[]
+        //    {
+        //        new SqlParameter("@ReaderName",objReader.ReaderName),
+        //        new SqlParameter("@Gender",objReader.Gender),
+        //        new SqlParameter("@ReaderAddress",objReader.ReaderAddress),
+        //        new SqlParameter("@PostCode",objReader.PostCode),
+        //        new SqlParameter("@PhoneNumber",objReader.PhoneNumber),
+        //        new SqlParameter("@RoleId",objReader.RoleId),
+        //        new SqlParameter("@ReaderImage",objReader.ReaderImage),
+        //        new SqlParameter("@ReaderId",objReader.ReaderId)
+        //    };
+        //    return SQLHelper.Update(sql,param);
+        //}
         //借阅证挂失
         public int ForbiddenReaderCard(string readerId)
         {

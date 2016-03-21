@@ -22,11 +22,16 @@ namespace BLL
             return objReaderService.AddReader(objReader);
         }
 
-        //修改读者信息
-        public int EditReader(string readerId, Reader objReader)
+        //修改读者信息(不带参数)
+        public int EditReader(Reader objReader)
         {
-            return objReaderService.EditReader(readerId, objReader);
+            return objReaderService.EditReader(objReader);
         }
+        ////修改读者信息(带参数)
+        //public int EditReader(string readerId, Reader objReader)
+        //{
+        //    return objReaderService.EditReader(readerId, objReader);
+        //}
 
         //借阅证挂失
         public int ForbiddenReaderCard(string readerId)
